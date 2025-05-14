@@ -16,4 +16,5 @@ function that can delete any node from the list using the value of the Node.
 
 
 Prototype-3-for-LinkedList-Header-File:
-Coming Soon.....
+This will include a Way to Select Data type for the Node by passing a string that specifies the type of data you want it to store,
+coming soon...
