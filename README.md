@@ -6,15 +6,14 @@ void insert(struct linkedList** list,char string[]);
 void freeList(struct linkedList** list);
 void printList(struct linkedList* list);
 int searchInList(struct linkedList* list, char *string);
+void deleteNode(struct linkedList** list,char *string);
  linkedLists in C
 
+
+
 Prototype-2-for-LinkedList-Header-File:
-This has the previously mentioned functions
-along with the newly added
-void deleteNode(struct linkedList** list,char *string);
-function that can delete any node from the list using the value of the Node.
+This a complete overhaul in the Code taking from polymorhism basics from OOP and using function pointers and void pointers to make a new Type of LinkedList, to store any type of dataType the User Wants with least abstraction I could apply with my current understanding of C and skills;
+
+The newList() takes an datatype enum as an argument. It will call a function assignFunctionPointers() to  idenditfy the right mathching datatype in the enum and, assing right function matching passed datatype.
 
 
-Prototype-3-for-LinkedList-Header-File:
-This will include a Way to Select Data type for the Node by passing a  enum that specifies the type of data you want it to store,
-coming soon...
