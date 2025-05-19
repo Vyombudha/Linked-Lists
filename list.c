@@ -116,7 +116,6 @@ void freeList(linkedList *list)
         free(temp->data);
         free(temp);
     }
-    temp->data = NULL;
     list->head = NULL;
     list->tail = NULL;
 }
