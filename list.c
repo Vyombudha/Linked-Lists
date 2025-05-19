@@ -4,26 +4,29 @@
 #include <stdlib.h>
 #include "list.h"
 
-int main()
-{
-    linkedList list1 = newList(STRING);
-    insertToList(&list1, "VYOM1");
-    insertToList(&list1, "VYOM2");
-    insertToList(&list1, "VYOM3");
-    insertToList(&list1, "VYOM4");
-    insertToList(&list1, "VYOM5");
-    printf("The List Before Removing any Node :\n");
-    printList(list1);
-    deleteNode(&list1, "VYOM");
-    printf("The List After Deletion is :\n");
-    printList(list1);
-    deleteNode(&list1, "VYOM2");
-    printf("The List After Deletion is :\n");
-    printList(list1);
 
-    freeList(&list1);
-    return 0;
-}
+/* Test Use Case for the LinkedList */
+
+// int main()
+// {
+//     linkedList list1 = newList(STRING);
+//     insertToList(&list1, "VYOM1");
+//     insertToList(&list1, "VYOM2");
+//     insertToList(&list1, "VYOM3");
+//     insertToList(&list1, "VYOM4");
+//     insertToList(&list1, "VYOM5");
+//     printf("The List Before Removing any Node :\n");
+//     printList(list1);
+//     deleteNode(&list1, "VYOM");
+//     printf("The List After Deletion is :\n");
+//     printList(list1);
+//     deleteNode(&list1, "VYOM2");
+//     printf("The List After Deletion is :\n");
+//     printList(list1);
+
+//     freeList(&list1);
+//     return 0;
+// }
 
 /* Function to CreateNewList */
 linkedList newList(datatypes type)
