@@ -2,7 +2,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <stdlib.h>
-#include "list.h"
+#include "list_type2.h"
 
 
 /* Test Use Case for the LinkedList */
