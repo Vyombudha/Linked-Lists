@@ -11,7 +11,7 @@
 // {
 //     linkedList list1 = newList(STRING);
 //     insertToList(&list1, "VYOM1");
-//     insertToList(&list1, "VYOM2");
+//     insertToList(&list1, "VYOM2"); // nothing preventing me from doing insertToList(&list1, 12);
 //     insertToList(&list1, "VYOM3");
 //     insertToList(&list1, "VYOM4");
 //     insertToList(&list1, "VYOM5");
@@ -23,7 +23,10 @@
 //     deleteNode(&list1, "VYOM2");
 //     printf("The List After Deletion is :\n");
 //     printList(list1);
-
+//     
+//     linkedList list2 = newList(INT);
+//    insertToList(&list2, 12);
+//     freeList(&list2);
 //     freeList(&list1);
 //     return 0;
 // }
