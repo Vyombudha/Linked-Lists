@@ -1,10 +1,20 @@
 #include "stack.h"
 
+// messages for appropriate Stack proccess Code
+const char *STACK_MESSAGES[5] = {
+    "RESPONSE_INITIATED",
+    "STACK_PROCESS_SUCCESSFUL",
+    "STACK_PUSH_NODE_ALLOCATION_ERROR",
+    "STACK_EMPTY",
+    "STACK_NULL_POINTER",
+};
 
-Node* newNode(char data){
-    Node* node = malloc(sizeof(Node));
+Node *newNode(char data)
+{
+    Node *node = malloc(sizeof(Node));
 
-    if(node!= NULL){
+    if (node != NULL)
+    {
         node->data = data;
         node->nextNode = NULL;
         return node;
@@ -12,54 +22,74 @@ Node* newNode(char data){
     return NULL;
 }
 
+bool isNULL(const Stack *stack)
+{
+    return (stack == NULL);
+}
 
-
-stackResponse newResponse(stackCodes code){
-    stackResponse response  = {
-        .code = code,
-        .poppedData = NO_VALUE
-    };
-    snprintf(response.message, MAX_BUFFER, "%s", STACK_MESSAGES[code]); // same as strcpy() but better!
+stackResponse newResponse(stackCodes code)
+{
+    stackResponse response;
+    response.code = code;
+    response.returnValue = NO_VALUE;
+    snprintf(response.message, MAX_BUFFER, "%s", STACK_MESSAGES[code]); // same as strcpy() but better since, it takes buffer into account!
     return response;
 }
 
-Stack newStack(void){
-
-    Stack stack  = {
+Stack newStack(void)
+{
+    Stack stack = {
         .size = 0,
-        .top = NULL
-    };
-
+        .top = NULL};
     return stack;
 }
 
-
-bool isEmpty(const Stack *stack){
-    return (stack->size == (size_t)0);
-}
-
-
-size_t size(const Stack *stack){
-    return stack->size;
-}
-
-char peek(const Stack *stack){
-    if(!isEmpty(stack))
+bool isEmpty(const Stack *stack)
+{
+    if (!isNULL(stack))
     {
-        return stack->top->data;
+        return (stack->size == 0);
     }
-    return NO_VALUE;
+    return false;
 }
 
-stackResponse push(Stack *stack,char data){
-        Node *node =  newNode(data);
+size_t size(const Stack *stack)
+{
+    if (!isNULL(stack))
+    {
+        return stack->size;
+    }
+    return -1;
+}
 
-        if(node != NULL){
-            if(stack->top == NULL)
+stackResponse peek(const Stack *stack)
+{
+    if (!isNULL(stack))
+    {
+        if (!isEmpty(stack))
+        {
+            stackResponse response = newResponse(STACK_PROCESS_SUCCESSFUL);
+            response.returnValue = stack->top->data;
+            return response;
+        }
+        return newResponse(STACK_EMPTY);
+    }
+    return newResponse(STACK_NULL_POINTER);
+}
+
+stackResponse push(Stack *stack, char data)
+{
+    Node *node = newNode(data);
+    if (!isNULL(stack))
+    {
+        if (node != NULL)
+        {
+            if (stack->top == NULL)
             {
                 stack->top = node;
             }
-            else{
+            else
+            {
                 node->nextNode = stack->top;
                 stack->top = node;
             }
@@ -68,93 +98,113 @@ stackResponse push(Stack *stack,char data){
             return newResponse(STACK_PROCESS_SUCCESSFUL);
         }
         return newResponse(STACK_PUSH_NODE_ALLOCATION_ERROR);
-}
-
-
-stackResponse pop(Stack *stack){
-    if(!isEmpty(stack)){
-
-        // storing data/init for returning/popping purposes
-        Node *nodeToPop = stack->top;
-        char poppedData = nodeToPop->data;
-
-        // main popping part
-        stack->top = stack->top->nextNode;
-        stack->size--;
-        free(nodeToPop);
-
-
-        stackResponse response = newResponse(STACK_PROCESS_SUCCESSFUL);
-        response.poppedData = poppedData;
-        return response;
     }
-    return newResponse(STACK_EMPTY);
+    return newResponse(STACK_NULL_POINTER);
 }
 
-stackResponse destroyStack(Stack *stack){
-    if(!isEmpty(stack)){
-        Node* nodeToPop;
-        while(!isEmpty(stack))
+stackResponse pop(Stack *stack)
+{
+    if (!isNULL(stack))
+    {
+        if (!isEmpty(stack))
         {
-            nodeToPop = stack->top;
-            stack->top = stack->top->nextNode;
-            free(nodeToPop);
-            stack->size--;
-        }
-        return newResponse(STACK_PROCESS_SUCCESSFUL);
-    }
+            // storing data/init for returning/popping purposes
+            Node *nodeToPop = stack->top;
+            char returnValue = nodeToPop->data;
 
-    return newResponse(STACK_EMPTY);
+            // main popping part
+            stack->top = stack->top->nextNode;
+            stack->size--;
+            free(nodeToPop);
+
+            stackResponse response = newResponse(STACK_PROCESS_SUCCESSFUL);
+            response.returnValue = returnValue;
+            return response;
+        }
+        return newResponse(STACK_EMPTY);
+    }
+    return newResponse(STACK_NULL_POINTER);
+}
+
+stackResponse destroyStack(Stack *stack)
+{
+    if (!isNULL(stack))
+    {
+        if (!isEmpty(stack))
+        {
+            Node *nodeToPop;
+            while (!isEmpty(stack))
+            {
+                nodeToPop = stack->top;
+                stack->top = stack->top->nextNode;
+                free(nodeToPop);
+                stack->size--;
+            }
+            return newResponse(STACK_PROCESS_SUCCESSFUL);
+        }
+
+        return newResponse(STACK_EMPTY);
+    }
+    return newResponse(STACK_NULL_POINTER);
 }
 
 stackResponse printStack(const Stack *stack)
 {
-    if(!isEmpty(stack)){
-        printf("STACK: ");
-        for(Node* node = stack->top ; node != NULL ; node = node->nextNode){
-            printf("%c, ",node->data);
+    if (!isNULL(stack))
+    {
+        if (!isEmpty(stack))
+        {
+            int i = stack->size;
+            for (Node *node = stack->top; node != NULL; node = node->nextNode)
+            {
+                printf("index: %i, data: %c\n", i--, node->data);
+            }
+            printf("\n");
+            return newResponse(STACK_PROCESS_SUCCESSFUL);
         }
-        printf("\n");
-        return newResponse(STACK_PROCESS_SUCCESSFUL);
+        return newResponse(STACK_EMPTY);
     }
-    return newResponse(STACK_EMPTY);
+    return newResponse(STACK_NULL_POINTER);
 }
 
-
 // test case Example!!!
-/*
+
 int main(void)
 {
-    stackResponse  response  = newResponse(RESPONSE_INITIATED);
+    stackResponse response = newResponse(RESPONSE_INITIATED);
     Stack stack1 = newStack();
     Stack *stack = &stack1;
 
-    response = push(stack,'m');
+    response = push(stack, 'm');
 
-    if(response.code == STACK_PROCESS_SUCCESSFUL){
-        printf("The RESPONSE MESSAGE IS: %s\n",response.message);
+    if (response.code == STACK_PROCESS_SUCCESSFUL)
+    {
+        printf("The RESPONSE MESSAGE IS: %s\n", response.message);
     }
 
-    push(stack,'o');
-    push(stack,'y');
-    push(stack,'v');
+    push(stack, 'o');
+    push(stack, 'y');
+    push(stack, 'v');
 
     printStack(stack);
 
     response = pop(stack);
 
-    if(response.code == STACK_PROCESS_SUCCESSFUL){
-        printf("The Popped Value is: %c\n",response.poppedData);
+    if (response.code == STACK_PROCESS_SUCCESSFUL)
+    {
+        printf("The Popped Value is: %c\n", response.returnValue);
     }
-
 
     destroyStack(stack);
     printf("The Stack has been destroyed!\n");
 
+    response = printStack(stack);
 
-    response  = printStack(stack);
+    printf("The response for Printing the Stack is: %s\n", response.message);
 
-    printf("The response for Printing the Stack is: %s\n",response.message);
+    response = printStack(NULL);
+
+    printf("The repsonse for Printing a NULL stack is: %s\n", response.message);
 
     return 0;
-}*/
+}
