@@ -1,6 +1,6 @@
 TODO : 
 
-1. change the definition of STACK_MESSAGES[] from .h to .c and add extern const char* ; type in .h file
-2. Add more descriptive Stack Codes and Messages
-3. Add stack == NULL type check in the Code
-4. make the printing format look better, more readable
+1. change the definition of STACK_MESSAGES[] from .h to .c and add extern const char* ; type in .h file on (done!)
+2. Add more descriptive Stack Codes and Messages (done!)
+3. Add stack == NULL type check in the Code (done!)
+4. make the printing format look better, more readable (done!)
