@@ -59,7 +59,7 @@ size_t size(const Stack *stack)
     {
         return stack->size;
     }
-    return -1;
+    return 0; // since even a NULL stack technically has Zero Nodes within it!
 }
 
 stackResponse peek(const Stack *stack)
