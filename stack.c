@@ -1,13 +1,14 @@
 #include "stack.h"
 
 // messages for appropriate Stack proccess Code
-const char *STACK_MESSAGES[5] = {
+const char *STACK_MESSAGES[6] = {
     "RESPONSE_INITIATED",
     "STACK_PROCESS_SUCCESSFUL",
     "STACK_PUSH_NODE_ALLOCATION_ERROR",
     "STACK_EMPTY",
     "STACK_NULL_POINTER",
-};
+    "STACK_ALREADY_INITIATED"};
+
 
 Node *newNode(char data)
 {
@@ -165,6 +166,39 @@ stackResponse printStack(const Stack *stack)
         return newResponse(STACK_EMPTY);
     }
     return newResponse(STACK_NULL_POINTER);
+}
+
+
+
+stackResponse reverseStack(const Stack *stack, Stack *reversedStack)
+{
+    if (isNULL(stack) || isNULL(reversedStack))
+    {
+        return newResponse(STACK_NULL_POINTER);
+    }
+
+    if (isEmpty(stack))
+    {
+        return newResponse(STACK_EMPTY);
+    }
+
+    if (!isEmpty(reversedStack))
+    {
+        return newResponse(STACK_ALREADY_INITIATED);
+    }
+
+    stackResponse response = newResponse(RESPONSE_INITIATED);
+
+    for (Node *node = stack->top; node != NULL; node = node->nextNode)
+    {
+        response = push(reversedStack, node->data);
+        if (response.code != STACK_PROCESS_SUCCESSFUL)
+        {
+            return newResponse(response.code);
+        }
+    }
+
+    return newResponse(STACK_PROCESS_SUCCESSFUL);
 }
 
 // test case Example!!!
