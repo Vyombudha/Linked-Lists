@@ -16,10 +16,12 @@ typedef enum
     STACK_PROCESS_SUCCESSFUL = 1,
     STACK_PUSH_NODE_ALLOCATION_ERROR = 2,
     STACK_EMPTY = 3,
-    STACK_NULL_POINTER = 4
+    STACK_NULL_POINTER = 4,
+    STACK_ALREADY_INITIATED = 5
 } stackCodes;
 
-extern const char *STACK_MESSAGES[5];
+extern const char *STACK_MESSAGES[6];
+
 
 // A struct to handle Struct Prccess Codes  and Return Values!
 typedef struct
